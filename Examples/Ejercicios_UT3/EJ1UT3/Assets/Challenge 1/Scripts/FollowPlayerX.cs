@@ -4,19 +4,21 @@ using UnityEngine;
 
 public class FollowPlayerX : MonoBehaviour
 {
-    private GameObject plane;
-    private Vector3 offset;
+    private GameObject _player;
+    [SerializeField]
+    private Vector3 offset = new Vector3(40, 0, 0);
 
     // Start is called before the first frame update
     void Start()
     {
-        plane = GameObject.FindGameObjectWithTag("Player");
-        offset = new Vector3(20, 5, 0);
+        // Instanciate player gameObject 
+        _player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = plane.transform.position + offset;
+        // Update the camera position
+        transform.position = _player.transform.position + offset;
     }
 }
