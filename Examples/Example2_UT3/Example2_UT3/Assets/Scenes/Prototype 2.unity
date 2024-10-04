@@ -442,7 +442,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 48.738083
-  orthographic: 0
+  orthographic: 1
   orthographic size: 10
   m_Depth: -1
   m_CullingMask:
@@ -467,8 +467,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 31.14951, z: 0.27}
+  m_LocalRotation: {x: 0.7071068, y: -1.4210856e-14, z: 1.4210855e-14, w: 0.7071068}
+  m_LocalPosition: {x: 0.020275664, y: 26.543156, z: -2.8404002}
   m_LocalScale: {x: 1, y: 20, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -751,9 +751,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animals:
   - {fileID: 4995498170981878862, guid: 1a67a543720f71a4a97b5c5a75cb1554, type: 3}
-  - {fileID: 4995498170981878862, guid: 1a67a543720f71a4a97b5c5a75cb1554, type: 3}
   - {fileID: 4817982064407660159, guid: 20e4d6f5e3155024880132d9c309d167, type: 3}
   - {fileID: 2476098748806306100, guid: f0a6ecd1e970c9346a0257973f7b2226, type: 3}
+  - {fileID: 4995498170981878862, guid: 1a67a543720f71a4a97b5c5a75cb1554, type: 3}
   index: 0
 --- !u!4 &1666294493
 Transform:
@@ -764,7 +764,7 @@ Transform:
   m_GameObject: {fileID: 1666294491}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.018273663, y: 5.9793854, z: 20.8}
+  m_LocalPosition: {x: 0.018273663, y: 0, z: 20.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

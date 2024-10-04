@@ -3524,6 +3524,7 @@ GameObject:
   - component: {fileID: 5129673115291774754}
   - component: {fileID: -6723991808652514637}
   - component: {fileID: 5279628778098023313}
+  - component: {fileID: 3907770621922267377}
   m_Layer: 0
   m_Name: Dog
   m_TagString: Untagged
@@ -3631,6 +3632,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &3907770621922267377
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4817982064407660159}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.092170894, y: 0.21837315, z: 0.31573802}
+  m_Center: {x: 0.00000008940697, y: 0.098017335, z: 0.016260644}
 --- !u!1 &4828811892239793370
 GameObject:
   m_ObjectHideFlags: 0

@@ -50,7 +50,7 @@ public class spawnManager : MonoBehaviour
             
         // Get a randon index from animal, to get animal type.
         index = Random.Range(0, animals.Length);
-            
+        
         // Instanciate a new animal
         Instantiate(animals[index], position, animals[index].transform.rotation);
     }

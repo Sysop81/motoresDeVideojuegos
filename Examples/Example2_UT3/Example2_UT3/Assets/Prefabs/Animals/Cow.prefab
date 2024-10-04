@@ -1138,6 +1138,7 @@ GameObject:
   - component: {fileID: 7387022597435790856}
   - component: {fileID: 421827212417809932}
   - component: {fileID: 3414626544121084199}
+  - component: {fileID: -2474624017278171061}
   m_Layer: 0
   m_Name: Cow
   m_TagString: Untagged
@@ -1154,7 +1155,7 @@ Transform:
   m_GameObject: {fileID: 4995498170981878862}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: -3.9248962, y: 0, z: 5.6}
+  m_LocalPosition: {x: -3.99, y: -0.03, z: 5.6}
   m_LocalScale: {x: 0.09, y: 0.09, z: 0.09}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1209,6 +1210,27 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!65 &-2474624017278171061
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4995498170981878862}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 13.096748, y: 35.660305, z: 61.478077}
+  m_Center: {x: -0.014534261, y: 14.105145, z: -2.3952775}
 --- !u!1 &5185418098761112639
 GameObject:
   m_ObjectHideFlags: 0
