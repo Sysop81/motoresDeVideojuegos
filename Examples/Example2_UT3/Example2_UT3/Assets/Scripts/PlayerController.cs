@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float speed = 10f;
 
-    private const float _LIMIT = 15.7f;
+    private const float _LIMIT = 22.1f;
     
     [SerializeField] private GameObject projectile;
     
