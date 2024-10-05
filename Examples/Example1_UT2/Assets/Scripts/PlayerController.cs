@@ -9,12 +9,16 @@ public class PlayerController : MonoBehaviour
     
     [SerializeField]
     private float turnSpeed = 45f;
-    private float horizontalInput, verticalInput;
+    private float _horizontalInput, _verticalInput;
+
+    private const float ROAD_LIMIT = 8f;
+    private float _initialZposition;
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        // Get initial Z position to set start road limit
+        _initialZposition = transform.position.z;
     }
 
     // Update is called once per frame
@@ -22,18 +26,26 @@ public class PlayerController : MonoBehaviour
     {
         
         // Get Axis
-        horizontalInput = Input.GetAxis("Horizontal");
-        verticalInput = Input.GetAxis("Vertical");
+        _horizontalInput = Input.GetAxis("Horizontal");
+        _verticalInput = Input.GetAxis("Vertical");
         
         // Old translate example
         //this.transform.Translate(speed * Time.deltaTime * Vector3.forward);
         
         
         // Player forward move
-        this.transform.Translate(speed * verticalInput * Time.deltaTime * Vector3.forward);
+        this.transform.Translate(speed * _verticalInput * Time.deltaTime * Vector3.forward);
         
-        // Player horizontal move
-        if (Mathf.Abs(verticalInput) > 0)// Only if player is moving 
-            this.transform.Rotate(turnSpeed * horizontalInput * Time.deltaTime * Vector3.up);
+        // Set road limits (x and z positions)
+        if(transform.position.x <= -ROAD_LIMIT)
+            transform.position = new Vector3(-ROAD_LIMIT, transform.position.y, transform.position.z);
+        if (transform.position.x >= ROAD_LIMIT) 
+            transform.position = new Vector3(ROAD_LIMIT, transform.position.y, transform.position.z);
+        if(transform.position.z <= _initialZposition)
+            transform.position = new Vector3(transform.position.x, transform.position.y, _initialZposition);
+        
+        // Player horizontal move only if move up or down.
+        if (Mathf.Abs(_verticalInput) > 0) 
+            transform.Rotate(turnSpeed * _horizontalInput * Time.deltaTime * Vector3.up);
     }
 }
