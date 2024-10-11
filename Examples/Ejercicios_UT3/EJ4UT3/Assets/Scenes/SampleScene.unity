@@ -250,9 +250,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 129145463}
+  - component: {fileID: 129145464}
   m_Layer: 0
   m_Name: Bolos
-  m_TagString: Untagged
+  m_TagString: Bolos
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -282,6 +283,18 @@ Transform:
   - {fileID: 2143942688}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &129145464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 129145462}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91052132250592145a79da4ecf8cdecf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &148705869 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7336683542523889841, guid: 46f32f2efe72b32469bc700ea175a842, type: 3}
@@ -714,8 +727,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.0030226228, y: 0.9784826, z: -0.2058055, w: -0.014384506}
-  m_LocalPosition: {x: 0.32723072, y: 0.891835, z: 3.0114236}
+  m_LocalRotation: {x: -0.0020931242, y: -0.99335897, z: 0.11356945, w: -0.018319638}
+  m_LocalPosition: {x: 0.06619873, y: 0.4459126, z: 2.892273}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -978,6 +991,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1481810261}
+  - component: {fileID: 1481810263}
+  - component: {fileID: 1481810262}
   - component: {fileID: 1481810260}
   - component: {fileID: 1481810259}
   - component: {fileID: 1481810258}
@@ -1070,12 +1085,38 @@ Transform:
   m_GameObject: {fileID: 1481810257}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0067, y: 0.109, z: 2.2807}
+  m_LocalPosition: {x: 0.018, y: 0.092, z: 2.2807}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1481810262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481810257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a964eb37d03f26746813022be6ea1980, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 2
+  ballPrefab: {fileID: 5700156295370743432, guid: f38206212146f974d8f97d3e5bfa5239, type: 3}
+--- !u!114 &1481810263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1481810257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a83104e9432247c458ae00974f888c48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1494233646 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4274473518910412577, guid: b4e9ff2a2f7e8c74081570398cd602d5, type: 3}
@@ -1137,6 +1178,14 @@ PrefabInstance:
     - target: {fileID: 6132075870828086733, guid: b4e9ff2a2f7e8c74081570398cd602d5, type: 3}
       propertyPath: m_Name
       value: Segmento (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774415278972071238, guid: b4e9ff2a2f7e8c74081570398cd602d5, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7774415278972071238, guid: b4e9ff2a2f7e8c74081570398cd602d5, type: 3}
+      propertyPath: m_IsKinematic
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
