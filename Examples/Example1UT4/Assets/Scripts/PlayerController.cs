@@ -10,12 +10,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float jumpForce = 8f;
     [SerializeField] private bool isOnGround = true;
     private bool gameOver = false;
+    private Animator animator;
+
+    private const string JUMP_TRIG = "Jump_trig";
     
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>(); 
-        
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -23,6 +26,8 @@ public class PlayerController : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Space) && isOnGround){
             playerRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            
+            animator.SetTrigger(JUMP_TRIG);
             isOnGround = false;
         }
     }
