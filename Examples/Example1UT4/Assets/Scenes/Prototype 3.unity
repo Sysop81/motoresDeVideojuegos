@@ -216,6 +216,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!82 &199931498 stripped
+AudioSource:
+  m_CorrespondingSourceObject: {fileID: 2424204512691799180, guid: 5a1d4c60ca81e8345a7c7ce64f6f7c5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1378740352389966987}
+  m_PrefabAsset: {fileID: 0}
 --- !u!850595691 &399470135
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -555,6 +561,12 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!198 &1538932411 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 8098882347041529384, guid: 5a1d4c60ca81e8345a7c7ce64f6f7c5e,
+    type: 3}
+  m_PrefabInstance: {fileID: 1378740352389966987}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2014335011
 GameObject:
   m_ObjectHideFlags: 0
@@ -718,20 +730,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2424204512691799180, guid: 5a1d4c60ca81e8345a7c7ce64f6f7c5e,
+        type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5149538139320935347, guid: 5a1d4c60ca81e8345a7c7ce64f6f7c5e,
         type: 3}
-      propertyPath: jumpForce
-      value: 8
-      objectReference: {fileID: 0}
+      propertyPath: dirty
+      value: 
+      objectReference: {fileID: 1538932411}
+    - target: {fileID: 5149538139320935347, guid: 5a1d4c60ca81e8345a7c7ce64f6f7c5e,
+        type: 3}
+      propertyPath: deathSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 4bcde6de2166e41e284ec46d8a01fb90, type: 3}
+    - target: {fileID: 5149538139320935347, guid: 5a1d4c60ca81e8345a7c7ce64f6f7c5e,
+        type: 3}
+      propertyPath: audioSource
+      value: 
+      objectReference: {fileID: 199931498}
     - target: {fileID: 5824478150038033434, guid: 5a1d4c60ca81e8345a7c7ce64f6f7c5e,
         type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 6955653913318428719, guid: 5a1d4c60ca81e8345a7c7ce64f6f7c5e,
-        type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

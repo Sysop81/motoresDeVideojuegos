@@ -3,16 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
+
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody playerRb;
-    [SerializeField] private float jumpForce = 8f;
+    
+    [SerializeField] private float jumpForce = 7f;
     [SerializeField] private bool isOnGround = true;
+    [SerializeField] private ParticleSystem explosion;
+    [SerializeField] private ParticleSystem dirty;
+    [SerializeField] private AudioClip jumpSound,deathSound;
+    [SerializeField] private AudioSource audioSource;
     private bool gameOver = false;
     private Animator animator;
+    private Rigidbody playerRb;
 
     private const string JUMP_TRIG = "Jump_trig";
+    private const string DEATH_TYPE = "DeathType_int";
+    private const string DEATH_B = "Death_b";
     
     // Start is called before the first frame update
     void Start()
@@ -29,6 +39,10 @@ public class PlayerController : MonoBehaviour
             
             animator.SetTrigger(JUMP_TRIG);
             isOnGround = false;
+            
+            audioSource.PlayOneShot(jumpSound,1);
+            
+            dirty.Stop();
         }
     }
 
@@ -36,10 +50,19 @@ public class PlayerController : MonoBehaviour
     {
         if(other.gameObject.CompareTag("Ground")){
             isOnGround = true;
+            dirty.Play();
         }else if (other.gameObject.CompareTag("Obstacles"))
         {
             gameOver = true;
             Debug.Log("Game Over");
+            
+            explosion.Play();
+            animator.SetInteger(DEATH_TYPE,Random.Range(1,3));
+            animator.SetBool(DEATH_B,true);
+            
+            audioSource.PlayOneShot(deathSound);
+            
+            Invoke("RestartGame",3.0f);
         }
     }
 
@@ -47,5 +70,10 @@ public class PlayerController : MonoBehaviour
     {
         get { return gameOver; }
         set { gameOver = value; }
+    }
+
+    public void RestartGame()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
