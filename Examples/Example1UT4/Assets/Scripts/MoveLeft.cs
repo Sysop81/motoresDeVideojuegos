@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class MoveLeft : MonoBehaviour
@@ -7,6 +8,7 @@ public class MoveLeft : MonoBehaviour
     public float speed = 8f;
     
     private PlayerController player;
+    
     
     // Start is called before the first frame update
     void Start()
@@ -17,7 +19,10 @@ public class MoveLeft : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!player.GameOver)
+        if (!player.GameOver)
+        {
             transform.Translate( speed * Time.deltaTime * Vector3.left);
+        }
+            
     }
 }
