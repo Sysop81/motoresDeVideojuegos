@@ -7,8 +7,8 @@ using Random = UnityEngine.Random;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] GameObject enemy;
-    public int enemyWave = 1;
-    public int enemyCount;
+    private int _enemyWave = 1;
+    //public int enemyCount;
     private float spawnRange = 9f;
     private float spawnPosX, spawnPosZ;
     
@@ -17,22 +17,21 @@ public class SpawnManager : MonoBehaviour
     {
         //Instantiate(enemy, GenerateSpawnPosition(), enemy.transform.rotation);
         
-        SpawnEnemyWave(enemyWave);
+        SpawnEnemyWave(_enemyWave);
     }
 
-    private void Update()
+    /*private void Update()
     {
-        // TODO REPAIR THIS
-        enemyCount = GameObject.FindObjectsOfType<Enemy>().Length;
+        enemyCount = GameObject.FindObjectsOfType<EnemyController>().Length;
         if (enemyCount == 0)
         {
             enemyWave++;
             SpawnEnemyWave(enemyWave);
         }
-    }
+    }*/
 
     /// <summary>
-    /// Generate a enemy aleatory position of spawnRange
+    /// Generate an enemy aleatory position of spawnRange
     /// </summary>
     /// <returns></returns>
     private Vector3 GenerateSpawnPosition()
@@ -49,5 +48,11 @@ public class SpawnManager : MonoBehaviour
         {
             Instantiate(enemy, GenerateSpawnPosition(), enemy.transform.rotation);
         }
+    }
+
+    public void LaunchNewEnemyWave()
+    {
+        _enemyWave++;
+        SpawnEnemyWave(_enemyWave);
     }
 }

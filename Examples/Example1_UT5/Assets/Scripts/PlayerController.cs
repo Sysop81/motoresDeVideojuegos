@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Rigidbody playerRB;
     [SerializeField] private float moveForce = 3f;
     [SerializeField] private float forwardInput;
+    [SerializeField] private float restartGamePlayTime = 3f;
     
     private GameObject _focalPoint;
     
@@ -30,7 +31,7 @@ public class PlayerController : MonoBehaviour
         if (other.gameObject.CompareTag("Death"))
         {
             //Destroy(gameObject);
-            Invoke("RestartGame",3.0f);
+            Invoke("RestartGame",restartGamePlayTime);
         }
     }
     

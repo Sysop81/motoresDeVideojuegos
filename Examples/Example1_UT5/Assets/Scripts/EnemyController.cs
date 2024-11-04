@@ -9,12 +9,14 @@ public class EnemyController : MonoBehaviour
     
     private Rigidbody _rb;
     private GameObject _player;
+    private GameObject _spawnManager;
     
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _player = GameObject.FindGameObjectWithTag("Player");
+        _spawnManager = GameObject.FindGameObjectWithTag("SpawnManager");
     }
 
     // Update is called once per frame
@@ -29,6 +31,11 @@ public class EnemyController : MonoBehaviour
         if (other.gameObject.CompareTag("Death"))
         {
             Destroy(gameObject);
+            
+            // Call LaunchNewEnemy method from _spawnManager GameObject
+            if(GameObject.FindObjectsOfType<EnemyController>().Length - 1 == 0)
+                _spawnManager.GetComponent<SpawnManager>().LaunchNewEnemyWave();
         }
     }
+    
 }
