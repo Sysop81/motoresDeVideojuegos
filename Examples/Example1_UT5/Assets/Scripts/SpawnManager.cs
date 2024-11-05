@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] GameObject enemy;
+    [SerializeField] GameObject powerUp;
     private int _enemyWave = 1;
     //public int enemyCount;
     private float spawnRange = 9f;
@@ -48,6 +49,8 @@ public class SpawnManager : MonoBehaviour
         {
             Instantiate(enemy, GenerateSpawnPosition(), enemy.transform.rotation);
         }
+        
+        Instantiate(powerUp, GenerateSpawnPosition(),powerUp.transform.rotation);
     }
 
     public void LaunchNewEnemyWave()
