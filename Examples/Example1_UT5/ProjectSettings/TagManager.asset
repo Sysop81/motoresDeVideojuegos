@@ -7,7 +7,8 @@ TagManager:
   - Enemy
   - Death
   - SpawnManager
-  - PoweUp
+  - PowerUp
+  - Island
   layers:
   - Default
   - TransparentFX

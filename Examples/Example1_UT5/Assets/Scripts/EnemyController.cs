@@ -25,7 +25,11 @@ public class EnemyController : MonoBehaviour
         Vector3 direction  = (_player.transform.position - transform.position).normalized;
         _rb.AddForce(direction * moveForce);
     }
-
+    
+    /// <summary>
+    /// Method OnTriggerEnter [Trigger]
+    /// </summary>
+    /// <param name="other">GameObject detected</param>
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Death"))
@@ -37,5 +41,4 @@ public class EnemyController : MonoBehaviour
                 _spawnManager.GetComponent<SpawnManager>().LaunchNewEnemyWave();
         }
     }
-    
 }
