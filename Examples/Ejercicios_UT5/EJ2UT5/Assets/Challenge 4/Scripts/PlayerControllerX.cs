@@ -18,36 +18,50 @@ public class PlayerControllerX : MonoBehaviour
     public GameObject smokeEffect;
     private ParticleSystem _smokeEffectParticleSystem;
     
+    // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
         focalPoint = GameObject.Find("Focal Point");
         _smokeEffectParticleSystem = smokeEffect.GetComponent<ParticleSystem>();
     }
-
+    
+    // Update is called once per frame
     void Update()
     {
         // Add force to player in direction of the focal point (and camera)
         float verticalInput = Input.GetAxis("Vertical");
         playerRb.AddForce(verticalInput * speed * Time.deltaTime * focalPoint.transform.forward);
 
-        if (playerRb.velocity.magnitude > normalStrength)
-        {
-            if (!_smokeEffectParticleSystem.isPlaying)
-            {
-                _smokeEffectParticleSystem.Play();
-            }
-        }
-        
-        if(_smokeEffectParticleSystem.isPlaying) 
-            smokeEffect.transform.position = new Vector3(transform.position.x, -0.5f, transform.position.z);
+        // Manage player particle system
+        ManageSmokeParticleSystem();
         
         // Set powerup indicator position to beneath player
         powerupIndicator.transform.position = transform.position + new Vector3(0, 0, 0);
-
     }
+    
+    /// <summary>
+    /// Method ManageSmokeParticleSystem
+    /// This method manage the smoke particle system. This is activated when plyer velocity i s greater than a
+    /// normalStrength variable
+    /// </summary>
+    private void ManageSmokeParticleSystem()
+    {
+        // If player velocity is greater than normal velocity && skome effect is not playing, we launch the effect
+        if (playerRb.velocity.magnitude > normalStrength && !_smokeEffectParticleSystem.isPlaying)
+            _smokeEffectParticleSystem.Play();
+        
+        // Adding smoke particle system to player
+        if(_smokeEffectParticleSystem.isPlaying) 
+            smokeEffect.transform.position = new Vector3(transform.position.x, -0.5f, transform.position.z);
+    }
+    
 
-    // If Player collides with powerup, activate powerup
+    /// <summary>
+    /// Trigger OnTriggerEnter
+    /// If Player collides with powerup, activate powerup
+    /// </summary>
+    /// <param name="other">GameObject that launch the trigger</param>
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Powerup"))
@@ -59,7 +73,11 @@ public class PlayerControllerX : MonoBehaviour
         }
     }
 
-    // Coroutine to count down powerup duration
+    /// <summary>
+    /// Corrutine PowerupCooldown
+    /// This method count down powerup duration
+    /// </summary>
+    /// <returns></returns>
     IEnumerator PowerupCooldown()
     {
         yield return new WaitForSeconds(powerUpDuration);
@@ -67,28 +85,20 @@ public class PlayerControllerX : MonoBehaviour
         powerupIndicator.SetActive(false);
     }
 
-    // If Player collides with enemy
+    
+    /// <summary>
+    /// Method OnCollisionEnter [Callback]
+    /// If Player collides with enemy
+    /// </summary>
+    /// <param name="other">GameObject that launch the callback</param>
     private void OnCollisionEnter(Collision other)
     {
-        
         if (other.gameObject.CompareTag("Enemy") && playerRb.velocity.magnitude > 1)
         {
             Rigidbody enemyRigidbody = other.gameObject.GetComponent<Rigidbody>();
             Vector3 awayFromPlayer = (other.gameObject.transform.position - transform.position).normalized; 
-           
-            if (hasPowerup) // if have powerup hit enemy with powerup force
-            {
-                enemyRigidbody.AddForce(awayFromPlayer * powerupStrength, ForceMode.Impulse);
-            }
-            else // if no powerup, hit enemy with normal strength 
-            {
-                enemyRigidbody.AddForce(awayFromPlayer * normalStrength, ForceMode.Impulse);
-            }
-
-
+            
+            enemyRigidbody.AddForce(awayFromPlayer * (hasPowerup ? powerupStrength : normalStrength), ForceMode.Impulse);
         }
     }
-
-
-
 }

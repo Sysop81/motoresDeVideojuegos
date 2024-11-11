@@ -23,25 +23,24 @@ public class EnemyX : MonoBehaviour
         // Set enemy direction towards player goal and move there
         Vector3 lookDirection = (playerGoal.transform.position - transform.position).normalized;
         enemyRb.AddForce(speed * Time.deltaTime * lookDirection);
-
     }
-
+    
+    /// <summary>
+    /// Method OnCollisionEnter [Callback]
+    /// </summary>
+    /// <param name="other">GameObject that launch the callback</param>
     private void OnCollisionEnter(Collision other)
     {
         // If enemy collides with either goal, destroy it
         if (other.gameObject.name == "Enemy Goal" || other.gameObject.name == "Player Goal")
         {
+            // In any case the object is destroyed
             Destroy(gameObject);
             
             // Call the spawn manager to launch new enemy wave
             if(GameObject.FindObjectsOfType<EnemyX>().Length - 1 == 0)
                 _spawnManager.GetComponent<SpawnManagerX>().LaunchNewEnemyWave();
         } 
-        /*else if (other.gameObject.name == "Player Goal")
-        {
-            Destroy(gameObject);
-        }*/
-
     }
 
 }
