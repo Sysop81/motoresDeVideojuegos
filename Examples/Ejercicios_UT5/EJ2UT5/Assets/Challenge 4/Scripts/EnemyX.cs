@@ -7,12 +7,14 @@ public class EnemyX : MonoBehaviour
     public float speed;
     private Rigidbody enemyRb;
     private GameObject playerGoal;
+    private GameObject _spawnManager; 
 
     // Start is called before the first frame update
     void Start()
     {
         enemyRb = GetComponent<Rigidbody>();
         playerGoal = GameObject.Find("Player Goal");
+        _spawnManager = GameObject.Find("Spawn Manager");
     }
 
     // Update is called once per frame
@@ -27,14 +29,18 @@ public class EnemyX : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         // If enemy collides with either goal, destroy it
-        if (other.gameObject.name == "Enemy Goal")
+        if (other.gameObject.name == "Enemy Goal" || other.gameObject.name == "Player Goal")
         {
             Destroy(gameObject);
+            
+            // Call the spawn manager to launch new enemy wave
+            if(GameObject.FindObjectsOfType<EnemyX>().Length - 1 == 0)
+                _spawnManager.GetComponent<SpawnManagerX>().LaunchNewEnemyWave();
         } 
-        else if (other.gameObject.name == "Player Goal")
+        /*else if (other.gameObject.name == "Player Goal")
         {
             Destroy(gameObject);
-        }
+        }*/
 
     }
 

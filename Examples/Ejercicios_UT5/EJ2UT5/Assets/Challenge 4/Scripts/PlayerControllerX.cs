@@ -43,7 +43,7 @@ public class PlayerControllerX : MonoBehaviour
             smokeEffect.transform.position = new Vector3(transform.position.x, -0.5f, transform.position.z);
         
         // Set powerup indicator position to beneath player
-        powerupIndicator.transform.position = transform.position + new Vector3(0, -0.6f, 0);
+        powerupIndicator.transform.position = transform.position + new Vector3(0, 0, 0);
 
     }
 
@@ -70,7 +70,7 @@ public class PlayerControllerX : MonoBehaviour
     // If Player collides with enemy
     private void OnCollisionEnter(Collision other)
     {
-        //Debug.Log(playerRb.velocity.magnitude + " > 1  = " + (playerRb.velocity.magnitude > 1) );
+        
         if (other.gameObject.CompareTag("Enemy") && playerRb.velocity.magnitude > 1)
         {
             Rigidbody enemyRigidbody = other.gameObject.GetComponent<Rigidbody>();
