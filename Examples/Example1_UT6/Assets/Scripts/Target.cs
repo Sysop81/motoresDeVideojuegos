@@ -7,16 +7,23 @@ using Random = UnityEngine.Random;
 
 public class Target : MonoBehaviour
 {
+    [SerializeField] private int pointValue;
+    [SerializeField] private ParticleSystem explosion;
     private Rigidbody _rb;
     private float minForce = 14,
                   maxForce = 18,
                   maxTorque = 10,
                   xRange = 4,
                   ySpawnPos = -6;
+    private GameManager _gameManager;
+    //private AudioSource _audioSource; This option is with audio source component
+    [SerializeField] private AudioClip _cutSound;
     
     // Start is called before the first frame update
     void Start()
     {
+        //_audioSource = GetComponent<AudioSource>();
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _rb = GetComponent<Rigidbody>();
         _rb.AddForce(RandomForce(), ForceMode.Impulse);
         _rb.AddTorque(RandomTorque(),RandomTorque(),RandomTorque(), ForceMode.Impulse);
@@ -48,7 +55,11 @@ public class Target : MonoBehaviour
 
     private void OnMouseOver()
     {
+        _gameManager.UpdateSocre(pointValue);
         Destroy(gameObject);
+        AudioSource.PlayClipAtPoint(_cutSound, transform.position,1);
+        //_audioSource.Play();
+        Instantiate(explosion,transform.position,explosion.transform.rotation);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -56,6 +67,7 @@ public class Target : MonoBehaviour
         if (other.CompareTag("KillZone"))
         {
             Destroy(gameObject);
+            if(this.CompareTag("Good")) _gameManager.GameOver();
         }
     }
 }

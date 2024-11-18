@@ -49,6 +49,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e44b8a7e4be8f224cb9f5a71a80bde4b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pointValue: -10
+  explosion: {fileID: 4758139293545943008, guid: c7ad2532a6eeb40b59033c75e71fa054,
+    type: 3}
+  _cutSound: {fileID: 8300000, guid: ec8fd05f903f55a49aef2169e9ac99ab, type: 3}
 --- !u!33 &323803524761967192
 MeshFilter:
   m_ObjectHideFlags: 0
