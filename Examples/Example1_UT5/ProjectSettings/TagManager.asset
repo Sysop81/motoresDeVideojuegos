@@ -9,6 +9,7 @@ TagManager:
   - SpawnManager
   - PowerUp
   - Island
+  - GameManager
   layers:
   - Default
   - TransparentFX

@@ -10,13 +10,17 @@ public class EnemyController : MonoBehaviour
     private Rigidbody _rb;
     private GameObject _player;
     private GameObject _spawnManager;
+    private GameManager _gameManager;
+    private PlayerController _playerController;
     
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
         _player = GameObject.FindGameObjectWithTag("Player");
+        _playerController = _player.GetComponent<PlayerController>();
         _spawnManager = GameObject.FindGameObjectWithTag("SpawnManager");
+        _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -34,6 +38,9 @@ public class EnemyController : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Death"))
         {
+            // Update score and destroy the enemy gameObject
+            _gameManager.SetScore(_playerController.HasPowerUp() ? 
+                _gameManager.GetMinScorePointValue() : _gameManager.GetMaxScorePointValue());
             Destroy(gameObject);
             
             // Call LaunchNewEnemy method from _spawnManager GameObject
