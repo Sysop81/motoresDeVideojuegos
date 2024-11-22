@@ -29,7 +29,6 @@ public class Target : MonoBehaviour
         _rb.AddTorque(RandomTorque(),RandomTorque(),RandomTorque(), ForceMode.Impulse);
 
         transform.position = RandomSpawnPos();
-
     }
 
     // Update is called once per frame
@@ -55,11 +54,15 @@ public class Target : MonoBehaviour
 
     private void OnMouseOver()
     {
-        _gameManager.UpdateSocre(pointValue);
-        Destroy(gameObject);
-        AudioSource.PlayClipAtPoint(_cutSound, transform.position,1);
-        //_audioSource.Play();
-        Instantiate(explosion,transform.position,explosion.transform.rotation);
+        if (_gameManager.gameState == GameState.InGame)
+        {
+            _gameManager.UpdateSocre(pointValue);
+            Destroy(gameObject);
+            AudioSource.PlayClipAtPoint(_cutSound, transform.position,1);
+            //_audioSource.Play();
+            Instantiate(explosion,transform.position,explosion.transform.rotation);
+        }
+        
     }
 
     private void OnTriggerEnter(Collider other)
