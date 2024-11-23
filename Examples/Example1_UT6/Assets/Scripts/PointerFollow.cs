@@ -4,19 +4,15 @@ using UnityEngine;
 
 public class PointerFollow : MonoBehaviour
 {
-    [SerializeField] private Camera camera;
+    [SerializeField] private Camera myCamera;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    /// <summary>
+    /// Method Update [Lifes cycles]
+    /// Update is called once per frame
+    /// </summary>
     void Update()
     {
-        var mousePos = camera.ScreenToWorldPoint(Input.mousePosition);
-        mousePos = new Vector2(mousePos.x, mousePos.y);
-        transform.position = mousePos;
+        var mousePos = myCamera.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = new Vector2(mousePos.x, mousePos.y);
     }
 }
