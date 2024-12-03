@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     private float _powerUpTime = 7f;
     private const string STAR_POWER_UP = "Star_01(Clone)";
     private GameObject _spawnManager;
+    private GameManager _gameManager;
     
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,7 @@ public class PlayerController : MonoBehaviour
         _playerRB = GetComponent<Rigidbody>();
         _focalPoint = GameObject.Find("FocalPoint");
         _spawnManager = GameObject.FindGameObjectWithTag("SpawnManager");
+        _gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent<GameManager>();
     }
 
     // Update is called once per frame
@@ -34,6 +36,15 @@ public class PlayerController : MonoBehaviour
         _playerRB.AddForce(forwardInput * moveForce * _focalPoint.transform.forward, ForceMode.Force);
     }
     
+    /// <summary>
+    /// Getter HasPowerUp
+    /// </summary>
+    /// <returns></returns>
+    public bool HasPowerUp()
+    {
+        return _hasPowerUp;
+    }
+
     /// <summary>
     /// Method OnTriggerEnter [Trigger]
     /// </summary>
@@ -99,9 +110,14 @@ public class PlayerController : MonoBehaviour
     {
         // Get all active enemies
         var enemies = GameObject.FindObjectsOfType<EnemyController>();
+        var totalPoints = enemies.Length * _gameManager.GetMaxScorePointValue(); // It with powerUp On
         // Destroy all of these
         foreach (var enemy in enemies)
             Destroy(enemy.gameObject);
+        
+        // Update Score 
+        _gameManager.SetScore(totalPoints);
+        
         // Call the LaunchEnemyWave to load a new enemy wave from spawn manager.
         _spawnManager.GetComponent<SpawnManager>().LaunchNewEnemyWave();
     }

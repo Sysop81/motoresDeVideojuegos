@@ -55,7 +55,7 @@ public class SpawnManager : MonoBehaviour
     private void GenerateRandomsPowerUps()
     {
         // Generate a num of power items for the spwan wave
-        var numOfPowerUps = Random.Range(0, 2);
+        var numOfPowerUps = Random.Range(1, 4);
         // Instanciate a random power up item from array for current iteration loop. And set the power up as son of Island prefab 
         for (int i = 0; i < numOfPowerUps; i++)
         {
