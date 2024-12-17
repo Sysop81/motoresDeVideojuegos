@@ -26,7 +26,7 @@ public class Observer : MonoBehaviour
             {
                 if (raycastHit.collider.transform == playerTransform)
                 {
-                    Debug.Log("Player is in Gargoyle range ");
+                    Debug.Log("Player is in enemy range ");
                     gameEnding.CaughtPlayer();
                 }
             }
