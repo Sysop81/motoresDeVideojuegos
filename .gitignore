@@ -1,3 +1,4 @@
+.gitignore
 # Ignorar carpetas generadas por Unity en cualquier subdirectorio
 **/[Ll]ibrary/
 **/[Tt]emp/
