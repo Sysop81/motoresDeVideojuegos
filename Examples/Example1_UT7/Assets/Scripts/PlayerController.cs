@@ -11,12 +11,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody _rigidbody;
     private Quaternion _rotation = Quaternion.identity;
     [SerializeField] private float turnSpeed = 20;
+    private AudioSource _audioSource;
     
     // Start is called before the first frame update
     void Start()
     {
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -38,7 +40,19 @@ public class PlayerController : MonoBehaviour
         _rotation = Quaternion.LookRotation(desiredForward);
 
         _animator.speed = Input.GetKey(KeyCode.Space) ? 2 : 1; // Change to use a animator parameter
-        
+
+        if (isWalking)
+        {
+            if (!_audioSource.isPlaying)
+            {
+                _audioSource.Play();
+            }
+        }
+        else
+        {
+            _audioSource.Stop();
+        }
+
     }
 
     private void OnAnimatorMove()
