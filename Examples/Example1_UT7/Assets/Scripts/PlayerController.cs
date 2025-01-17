@@ -1,3 +1,7 @@
+#if UNITY_IOS || UNITY_ANDROID
+    #define USING_MOBILE
+#endif
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,19 +28,31 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        float horizontal = Input.GetAxis("Horizontal");
-        float vertial = Input.GetAxis("Vertical");
-        
-        movement.Set(horizontal, 0, vertial);
+
+        #if USING_MOBILE
+            float horizontal = Input.GetAxis("MouseX");
+            float vertical = Input.GetAxis("MouseY");
+            if (Input.touchCount > 0)
+            {
+                horizontal = Input.touches[0].deltaPosition.x;
+                vertical = Input.touches[0].deltaPosition.y;
+            }
+        #else
+            float horizontal = Input.GetAxis("Horizontal");
+            float vertical = Input.GetAxis("Vertical");
+        #endif
+
+        movement.Set(horizontal, 0, vertical);
         movement.Normalize();
-        
+
         bool hasHorizontalInput = !Mathf.Approximately(horizontal, 0f);
-        bool hasVerticalInput = !Mathf.Approximately(vertial, 0f);
+        bool hasVerticalInput = !Mathf.Approximately(vertical, 0f);
         bool isWalking = hasHorizontalInput || hasVerticalInput;
-        
+
         _animator.SetBool(ISWALKING, isWalking);
-        
-        Vector3 desiredForward = Vector3.RotateTowards(transform.forward, movement, turnSpeed * Time.fixedDeltaTime, 0f);
+
+        Vector3 desiredForward =
+            Vector3.RotateTowards(transform.forward, movement, turnSpeed * Time.fixedDeltaTime, 0f);
         _rotation = Quaternion.LookRotation(desiredForward);
 
         _animator.speed = Input.GetKey(KeyCode.Space) ? 2 : 1; // Change to use a animator parameter
@@ -51,11 +67,10 @@ public class PlayerController : MonoBehaviour
         else
         {
             _audioSource.Stop();
-        }
-
+        }        
     }
-
-    private void OnAnimatorMove()
+    
+    void OnAnimatorMove()
     {
         _rigidbody.MovePosition(_rigidbody.position + movement * _animator.deltaPosition.magnitude);
         _rigidbody.MoveRotation(_rotation);
