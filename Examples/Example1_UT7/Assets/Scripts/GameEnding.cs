@@ -17,6 +17,24 @@ public class GameEnding : MonoBehaviour
     private bool _isPlayerAtExit;
     private bool _isPlayerCaught;
     private float _timer;
+    
+    [SerializeField] private GameObject timeLineDirector;
+
+
+    public void StartGameWithIntro()
+    {
+        Debug.Log("StartGameWithIntro");
+    }
+
+    public void StartGame()
+    {
+        Debug.Log("StartGame");
+    }
+
+    public void ExitGame()
+    {
+        Debug.Log("Exit Game");
+    }
 
     // Update is called once per frame
     void Update()
