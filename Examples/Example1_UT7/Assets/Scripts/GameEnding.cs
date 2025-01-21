@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 
 public class GameEnding : MonoBehaviour
@@ -13,27 +15,58 @@ public class GameEnding : MonoBehaviour
     [SerializeField] private CanvasGroup caughtBackgroundImageCanvasGroup;
     [SerializeField] private AudioSource caughtAudio;
     [SerializeField] private AudioSource winAudio;
+    
     private bool _hasAudioPlayed;
     private bool _isPlayerAtExit;
     private bool _isPlayerCaught;
     private float _timer;
     
-    [SerializeField] private GameObject timeLineDirector;
+    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private PlayableDirector playableDirector;
+    private readonly int _timeOffset = 5;
 
+    private void Start()
+    {
+        playableDirector.Stop();
+    }
 
     public void StartGameWithIntro()
     {
         Debug.Log("StartGameWithIntro");
+        InitializeGame(0);
+        //ManageMainMenu(false);
+        /*var director = timeLineDirector.GetComponent<PlayableDirector>();
+        director.initialTime = 0;
+        director.Play();*/
     }
 
     public void StartGame()
     {
         Debug.Log("StartGame");
+        
+        InitializeGame(playableDirector.duration - _timeOffset);
+        /*var director = timeLineDirector.GetComponent<PlayableDirector>();
+        director.initialTime = director.duration -5;
+        director.Play();*/
+    }
+
+    private void InitializeGame(double iTime)
+    {
+        ManageMainMenu(false);
+        playableDirector.initialTime = iTime;
+        playableDirector.Play();
     }
 
     public void ExitGame()
     {
-        Debug.Log("Exit Game");
+        Application.Quit();
+    }
+
+    private void ManageMainMenu(bool isShowingMenu)
+    {
+        mainMenu.SetActive(isShowingMenu);
+        
+        if(isShowingMenu) exitBackgroundImageCanvasGroup.alpha = 0; 
     }
 
     // Update is called once per frame
@@ -60,7 +93,7 @@ public class GameEnding : MonoBehaviour
         }
     }
 
-    public void EndLevel(CanvasGroup canvas, bool doRestart, AudioSource audioSource)
+    private void EndLevel(CanvasGroup canvas, bool doRestart, AudioSource audioSource)
     {
         if (!_hasAudioPlayed)
         {
@@ -72,10 +105,11 @@ public class GameEnding : MonoBehaviour
         canvas.alpha = _timer / fadeDuration;
         if (_timer > fadeDuration + displayImageDuration)
         {
-            if(doRestart) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            else Application.Quit();
+            if (doRestart) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            else ManageMainMenu(true); /*Application.Quit();*/
         }
     }
+    
 
     public void CaughtPlayer()
     {
