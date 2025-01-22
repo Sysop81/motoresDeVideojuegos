@@ -30,11 +30,13 @@ public class Observer : MonoBehaviour
                 {
                     //Debug.Log("Player is in enemy range ");
                     gameEnding.CaughtPlayer();
+                    _isPlayerInRange = false;
                 }
             }
         }
     }
     
+
     /// <summary>
     /// Trigger OnTriggerEnter
     /// </summary>

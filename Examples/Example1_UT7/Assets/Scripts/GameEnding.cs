@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Playables;
@@ -36,16 +37,20 @@ public class GameEnding : MonoBehaviour
     private bool _isPlayerCaught;
     private float _timer;
     private readonly int _timeOffset = 5;
-    private bool _isMenuActive = true;
+    private Vector3 _iPlayerPosition;
+    private Quaternion _iPlayerRotation;
+    
     /// <summary>
     /// Method Awake [Life cycle]
     /// </summary>
     void Awake()
     {
         // Manage camvas panels
-        menuPanel.SetActive(_isMenuActive);
+        menuPanel.SetActive(true);
         pausePanel.SetActive(false);
         gameExitPanel.SetActive(false);
+        _iPlayerPosition = player.GetComponent<Transform>().transform.position;
+        _iPlayerRotation = player.GetComponent<Transform>().transform.rotation;
     }
     
     /// <summary>
@@ -62,6 +67,7 @@ public class GameEnding : MonoBehaviour
     /// </summary>
     void Update()
     {
+        
         if (_isPlayerAtExit)
         {
             EndLevel(exitBackgroundImageCanvasGroup,false, winAudio);
@@ -115,7 +121,7 @@ public class GameEnding : MonoBehaviour
         // Change the game state, manage pause mode and finally reload the scene to set all ghost in the start positions
         gameState = GameState.InGame;
         ManagePauseMode();
-        ReloadScene();
+        ReloadSceneToMainMenu();
     }
     
     /// <summary>
@@ -236,17 +242,23 @@ public class GameEnding : MonoBehaviour
         {
             /*if (doRestart) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             else Application.Quit();
+            */
             
-            ReloadScene();*/
-
+            // Manage reload
             if (doRestart)
             {
-                _isMenuActive = false;
-                canvas.alpha = 0.0f;
-                ReloadScene();
+                // Reset game state
+                _isPlayerCaught = false;
+                _hasAudioPlayed = false;
+
+                player.transform.position = _iPlayerPosition;
+                player.transform.rotation = _iPlayerRotation;
+                canvas.alpha = 0;
+                _timer = 0;
+                return;
             }
             
-
+            ReloadSceneToMainMenu();
         }
     }
     
@@ -254,7 +266,7 @@ public class GameEnding : MonoBehaviour
     /// Method ReloadScene
     /// This method reload the current active scene
     /// </summary>
-    private void ReloadScene()
+    private void ReloadSceneToMainMenu()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
