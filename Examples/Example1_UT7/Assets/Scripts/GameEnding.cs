@@ -36,14 +36,14 @@ public class GameEnding : MonoBehaviour
     private bool _isPlayerCaught;
     private float _timer;
     private readonly int _timeOffset = 5;
-    
+    private bool _isMenuActive = true;
     /// <summary>
     /// Method Awake [Life cycle]
     /// </summary>
     void Awake()
     {
         // Manage camvas panels
-        menuPanel.SetActive(true);
+        menuPanel.SetActive(_isMenuActive);
         pausePanel.SetActive(false);
         gameExitPanel.SetActive(false);
     }
@@ -64,7 +64,7 @@ public class GameEnding : MonoBehaviour
     {
         if (_isPlayerAtExit)
         {
-            EndLevel(exitBackgroundImageCanvasGroup,true, winAudio);
+            EndLevel(exitBackgroundImageCanvasGroup,false, winAudio);
         }
         else if (_isPlayerCaught)
         {
@@ -235,9 +235,18 @@ public class GameEnding : MonoBehaviour
         if (_timer > fadeDuration + displayImageDuration)
         {
             /*if (doRestart) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            else Application.Quit();*/
+            else Application.Quit();
             
-            ReloadScene();
+            ReloadScene();*/
+
+            if (doRestart)
+            {
+                _isMenuActive = false;
+                canvas.alpha = 0.0f;
+                ReloadScene();
+            }
+            
+
         }
     }
     
