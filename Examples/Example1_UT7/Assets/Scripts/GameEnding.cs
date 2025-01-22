@@ -25,58 +25,135 @@ public class GameEnding : MonoBehaviour
     [SerializeField] private CanvasGroup caughtBackgroundImageCanvasGroup;
     [SerializeField] private AudioSource caughtAudio;
     [SerializeField] private AudioSource winAudio;
-    private bool _hasAudioPlayed;
-    private bool _isPlayerAtExit;
-    private bool _isPlayerCaught;
-    private float _timer;
-    
     [SerializeField] private GameObject canvasMenu;
     [SerializeField] private PlayableDirector playableDirector;
-    private readonly int _timeOffset = 5;
-
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject gameExitPanel;
 
+    private bool _hasAudioPlayed;
+    private bool _isPlayerAtExit;
+    private bool _isPlayerCaught;
+    private float _timer;
+    private readonly int _timeOffset = 5;
     
-    
+    /// <summary>
+    /// Method Awake [Life cycle]
+    /// </summary>
     void Awake()
     {
+        // Manage camvas panels
         menuPanel.SetActive(true);
         pausePanel.SetActive(false);
         gameExitPanel.SetActive(false);
     }
     
+    /// <summary>
+    /// Method Start [Life cycles]
+    /// </summary>
     private void Start()
     {
         playableDirector.Stop();
     }
-
+    
+    /// <summary>
+    /// Method Update [Life cycle]
+    /// Update is called once per frame
+    /// </summary>
+    void Update()
+    {
+        if (_isPlayerAtExit)
+        {
+            EndLevel(exitBackgroundImageCanvasGroup,true, winAudio);
+        }
+        else if (_isPlayerCaught)
+        {
+            EndLevel(caughtBackgroundImageCanvasGroup,true, caughtAudio);
+        }
+        
+        // Manage Pause mode
+        if (Input.GetKeyDown(KeyCode.P) && (gameState != GameState.InMenu))
+        {
+            gameState = gameState == GameState.InPaused ? GameState.InGame : GameState.InPaused;
+            ManagePauseMode();
+        }
+        
+        // Manage return to menu in Game mode
+        if (Input.GetKeyDown(KeyCode.Escape) && gameState == GameState.InGame)
+        {
+            gameState = GameState.InEsc;
+            ManageExitToMenu();
+        }
+    }
+    
+    /// <summary>
+    /// Method StartGameWithIntro
+    /// This method call the InitializateGame method passing as parameter a zero value. This value is a initial time to
+    /// start a director of Time line director.
+    /// </summary>
     public void StartGameWithIntro()
     {
         InitializeGame(0);
     }
-
+    
+    /// <summary>
+    /// Method StartGame
+    /// This method call the InitializateGame passing as parameter a diference between the total duration minus a litle
+    /// time offeset to start at end of duration
+    /// </summary>
     public void StartGame()
     {
         InitializeGame(playableDirector.duration - _timeOffset);
     }
-
+    
+    /// <summary>
+    /// Method ManageYesButton
+    /// This method manages a "Yes" button in a retrun to menu panel
+    /// </summary>
     public void ManageYesButton()
     {
+        // Change the game state, manage pause mode and finally reload the scene to set all ghost in the start positions
         gameState = GameState.InGame;
         ManagePauseMode();
         ReloadScene();
     }
-
+    
+    /// <summary>
+    /// Method ManageNoButton
+    /// This method manages a "No" button in a retrun to menu panel
+    /// </summary>
     public void ManageNoButton()
     {
+        // Desactivate panel and canvas, change the game state and quit the pause mode
         canvasMenu.SetActive(false);
         gameExitPanel.SetActive(false);
         gameState = GameState.InGame;
         ManagePauseMode();
     }
-
+    
+    /// <summary>
+    /// Method ExitGame
+    /// This method close the aplication
+    /// </summary>
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
+    
+    /// <summary>
+    /// Method CaughtPlayer
+    /// This method change the property value to true when plsyer is caught 
+    /// </summary>
+    public void CaughtPlayer()
+    {
+        _isPlayerCaught = true;
+    }
+    
+    /// <summary>
+    /// Method InitializeGame
+    /// This method initializate the game on base the initial time to start play on playable director
+    /// </summary>
+    /// <param name="iTime">double with the initial time to start the director</param>
     private void InitializeGame(double iTime)
     {
         ManageMainMenu(false);
@@ -86,11 +163,11 @@ public class GameEnding : MonoBehaviour
         gameState = GameState.InGame;
     }
 
-    public void ExitGame()
-    {
-        Application.Quit();
-    }
-
+    /// <summary>
+    /// Method ManageMainMenu
+    /// This method activates the menu panel
+    /// </summary>
+    /// <param name="isShowingMenu"></param>
     private void ManageMainMenu(bool isShowingMenu)
     {
         canvasMenu.SetActive(isShowingMenu);
@@ -115,38 +192,20 @@ public class GameEnding : MonoBehaviour
         Time.timeScale = 1.0f;
     }
     
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (_isPlayerAtExit)
-        {
-            EndLevel(exitBackgroundImageCanvasGroup,true, winAudio);
-        }
-        else if (_isPlayerCaught)
-        {
-            EndLevel(caughtBackgroundImageCanvasGroup,true, caughtAudio);
-        }
-
-        if (Input.GetKeyDown(KeyCode.P) && (gameState != GameState.InMenu))
-        {
-            gameState = gameState == GameState.InPaused ? GameState.InGame : GameState.InPaused;
-            ManagePauseMode();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Escape) && gameState == GameState.InGame)
-        {
-            gameState = GameState.InEsc;
-            ManageExitToMenu();
-        }
-    }
-
+    /// <summary>
+    /// Method ManageExitToMenu
+    /// This method show the exit to main menu panel when player press "esc" in game mode
+    /// </summary>
     private void ManageExitToMenu()
     {
         ManagePauseMode();
         gameExitPanel.SetActive(true);
     }
-
+    
+    /// <summary>
+    /// Trigger OnTriggerEnter
+    /// </summary>
+    /// <param name="other">Collider gameObject</param>
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject == player)
@@ -154,7 +213,15 @@ public class GameEnding : MonoBehaviour
             _isPlayerAtExit = true;
         }
     }
-
+    
+    /// <summary>
+    /// Method EndLevel
+    /// Manages the player caught and win.In any case, we reload the scene because it is easier than resetting all the
+    /// variables, ghosts, panels... etc.
+    /// </summary>
+    /// <param name="canvas"></param>
+    /// <param name="doRestart"></param>
+    /// <param name="audioSource"></param>
     private void EndLevel(CanvasGroup canvas, bool doRestart, AudioSource audioSource)
     {
         if (!_hasAudioPlayed)
@@ -167,19 +234,19 @@ public class GameEnding : MonoBehaviour
         canvas.alpha = _timer / fadeDuration;
         if (_timer > fadeDuration + displayImageDuration)
         {
-            if (doRestart) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-            else Application.Quit();
+            /*if (doRestart) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            else Application.Quit();*/
+            
+            ReloadScene();
         }
     }
-
+    
+    /// <summary>
+    /// Method ReloadScene
+    /// This method reload the current active scene
+    /// </summary>
     private void ReloadScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    }
-
-
-    public void CaughtPlayer()
-    {
-        _isPlayerCaught = true;
     }
 }

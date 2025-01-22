@@ -8,16 +8,18 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-
-    private string ISWALKING = "IsWalking";
+    [SerializeField] private float turnSpeed = 20;
+    private const string ISWALKING = "IsWalking";
     private Vector3 movement;
     private Animator _animator;
     private Rigidbody _rigidbody;
     private Quaternion _rotation = Quaternion.identity;
-    [SerializeField] private float turnSpeed = 20;
-    private AudioSource _audioSource;
+    private AudioSource _audioSource;   
     
-    // Start is called before the first frame update
+    /// <summary>
+    /// Method Start [Life cycle]
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         _animator = GetComponent<Animator>();
@@ -25,10 +27,12 @@ public class PlayerController : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Method FixedUpdate [Life cycle]
+    /// </summary>
     void FixedUpdate()
     {
-
+        // Only for Android build
         #if USING_MOBILE
             float horizontal = Input.GetAxis("MouseX");
             float vertical = Input.GetAxis("MouseY");
@@ -54,9 +58,11 @@ public class PlayerController : MonoBehaviour
         Vector3 desiredForward =
             Vector3.RotateTowards(transform.forward, movement, turnSpeed * Time.fixedDeltaTime, 0f);
         _rotation = Quaternion.LookRotation(desiredForward);
+        
+        // Animator speed change ( OTHER method is -> use an animator parameter)
+        _animator.speed = Input.GetKey(KeyCode.Space) ? 2 : 1; 
 
-        _animator.speed = Input.GetKey(KeyCode.Space) ? 2 : 1; // Change to use a animator parameter
-
+        // Manage walking audio source
         if (isWalking)
         {
             if (!_audioSource.isPlaying)
@@ -70,6 +76,9 @@ public class PlayerController : MonoBehaviour
         }       
     }
     
+    /// <summary>
+    /// Method OnAnimatorMove
+    /// </summary>
     void OnAnimatorMove()
     {
         _rigidbody.MovePosition(_rigidbody.position + movement * _animator.deltaPosition.magnitude);

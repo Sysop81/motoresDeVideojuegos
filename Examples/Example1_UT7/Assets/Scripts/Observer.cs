@@ -7,12 +7,14 @@ using UnityEngine;
 public class Observer : MonoBehaviour
 {
     [SerializeField] Transform playerTransform;
-    private bool _isPlayerInRange = false;
     [SerializeField] private GameEnding gameEnding;
-    
+    private bool _isPlayerInRange = false;
     
 
-    // Update is called once per frame
+    /// <summary>
+    /// Method Update [Life cycle]
+    /// Update is called once per frame
+    /// </summary>
     void Update()
     {
         if (_isPlayerInRange)
@@ -26,13 +28,17 @@ public class Observer : MonoBehaviour
             {
                 if (raycastHit.collider.transform == playerTransform)
                 {
-                    Debug.Log("Player is in enemy range ");
+                    //Debug.Log("Player is in enemy range ");
                     gameEnding.CaughtPlayer();
                 }
             }
         }
     }
-
+    
+    /// <summary>
+    /// Trigger OnTriggerEnter
+    /// </summary>
+    /// <param name="other">Collision gameObject</param>
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform == playerTransform)
@@ -40,7 +46,11 @@ public class Observer : MonoBehaviour
             _isPlayerInRange = true;
         }
     }
-
+    
+    /// <summary>
+    /// Trigger OnTriggerExit
+    /// </summary>
+    /// <param name="other">Collision gameObject</param>
     private void OnTriggerExit(Collider other)
     {
         if (other.transform == playerTransform)
@@ -48,7 +58,11 @@ public class Observer : MonoBehaviour
             _isPlayerInRange = false;
         }
     }
-
+    
+    /// <summary>
+    /// Method OnDrawGizmos
+    /// This method draw Observer Gizmos, sphere for focalPoint and line to player
+    /// </summary>
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
