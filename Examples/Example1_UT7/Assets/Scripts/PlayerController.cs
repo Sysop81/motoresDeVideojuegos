@@ -67,7 +67,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             _audioSource.Stop();
-        }        
+        }       
     }
     
     void OnAnimatorMove()
