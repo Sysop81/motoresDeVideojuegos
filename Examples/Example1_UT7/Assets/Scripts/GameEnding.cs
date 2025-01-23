@@ -45,7 +45,7 @@ public class GameEnding : MonoBehaviour
     /// </summary>
     void Awake()
     {
-        // Manage camvas panels
+        // Manage camvas panels and get the initial player position and rotation
         menuPanel.SetActive(true);
         pausePanel.SetActive(false);
         gameExitPanel.SetActive(false);
@@ -58,6 +58,7 @@ public class GameEnding : MonoBehaviour
     /// </summary>
     private void Start()
     {
+        // Sttoping the time line director
         playableDirector.Stop();
     }
     
@@ -240,30 +241,35 @@ public class GameEnding : MonoBehaviour
         canvas.alpha = _timer / fadeDuration;
         if (_timer > fadeDuration + displayImageDuration)
         {
+            // Original code
             /*if (doRestart) SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             else Application.Quit();
             */
             
-            // Manage reload
-            if (doRestart)
-            {
-                // Reset game state
-                _isPlayerCaught = false;
-                _hasAudioPlayed = false;
-
-                player.transform.position = _iPlayerPosition;
-                player.transform.rotation = _iPlayerRotation;
-                canvas.alpha = 0;
-                _timer = 0;
-                return;
-            }
-            
-            ReloadSceneToMainMenu();
+            if (doRestart) ReloadScene(canvas);
+            else ReloadSceneToMainMenu();
         }
     }
-    
+
     /// <summary>
     /// Method ReloadScene
+    /// This method set all scene variable to initial value to continue with the game
+    /// </summary>
+    /// <param name="canvas">Canvas to update the alpha value</param>
+    private void ReloadScene(CanvasGroup canvas)
+    {
+        // Reset game state variables
+        _isPlayerCaught = false;
+        _hasAudioPlayed = false;
+
+        player.transform.position = _iPlayerPosition;
+        player.transform.rotation = _iPlayerRotation;
+        canvas.alpha = 0;
+        _timer = 0;
+    }
+
+    /// <summary>
+    /// Method ReloadSceneToMainMenu
     /// This method reload the current active scene
     /// </summary>
     private void ReloadSceneToMainMenu()
