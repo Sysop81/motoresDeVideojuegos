@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
         _rotation = Quaternion.LookRotation(desiredForward);
         
         // Animator speed change ( OTHER method is -> use an animator parameter)
-        _animator.speed = Input.GetKey(KeyCode.Space) ? 2 : 1; 
+        _animator.speed = Input.GetKey(KeyCode.Space) || Input.GetButton("Fire2") ? 2 : 1; 
 
         // Manage walking audio source
         if (isWalking)

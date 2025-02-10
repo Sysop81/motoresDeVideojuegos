@@ -5,8 +5,10 @@ using System.Linq;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public enum GameState
 {
@@ -31,6 +33,10 @@ public class GameEnding : MonoBehaviour
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private GameObject pausePanel;
     [SerializeField] private GameObject gameExitPanel;
+    
+    [SerializeField] private GameObject firstMenuButton;
+    [SerializeField] private GameObject noMenuExitButton;
+    [SerializeField] private InputActionAsset inputActions;
 
     private bool _hasAudioPlayed;
     private bool _isPlayerAtExit;
@@ -51,6 +57,8 @@ public class GameEnding : MonoBehaviour
         gameExitPanel.SetActive(false);
         _iPlayerPosition = player.GetComponent<Transform>().transform.position;
         _iPlayerRotation = player.GetComponent<Transform>().transform.rotation;
+        
+        EventSystem.current.SetSelectedGameObject(firstMenuButton);
     }
     
     /// <summary>
@@ -60,6 +68,15 @@ public class GameEnding : MonoBehaviour
     {
         // Sttoping the time line director
         playableDirector.Stop();
+    }
+    
+    void OnEnable() 
+    {
+        inputActions.Enable();
+    }
+    void OnDisable() 
+    {
+        inputActions.Disable();
     }
     
     /// <summary>
@@ -79,15 +96,16 @@ public class GameEnding : MonoBehaviour
         }
         
         // Manage Pause mode
-        if (Input.GetKeyDown(KeyCode.P) && (gameState != GameState.InMenu))
+        if (Input.GetKeyDown(KeyCode.P) || inputActions.FindActionMap("Menu").FindAction("Pause").WasPressedThisFrame() && (gameState != GameState.InMenu))
         {
             gameState = gameState == GameState.InPaused ? GameState.InGame : GameState.InPaused;
             ManagePauseMode();
         }
         
         // Manage return to menu in Game mode
-        if (Input.GetKeyDown(KeyCode.Escape) && gameState == GameState.InGame)
+        if (Input.GetKeyDown(KeyCode.Escape) || inputActions.FindActionMap("Menu").FindAction("Exit").WasPressedThisFrame() && gameState == GameState.InGame)
         {
+            EventSystem.current.SetSelectedGameObject(noMenuExitButton); 
             gameState = GameState.InEsc;
             ManageExitToMenu();
         }
